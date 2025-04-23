@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Roboto } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/nav/MainNav";
 
@@ -8,10 +8,10 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const roboto = Roboto({
-  subsets: ["latin"],
-  weight: ['300', '400', '500', '700'],
-  variable: "--font-roboto",
+const spaceGrotesk = Space_Grotesk({ 
+  subsets: ['latin'],
+  display: 'swap',
+  variable: "--font-space-grotesk",
 });
 
 export const metadata: Metadata = {
@@ -25,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${roboto.variable}`}>
-      <body className="min-h-screen bg-gradient-to-br from-white via-purple-blue/20 to-purple-hard/10 font-sans">
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <body className="min-h-screen bg-gradient-to-br from-blue-blue to-purple-hard font-sans">
         <MainNav />
         {children}
       </body>

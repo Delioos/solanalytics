@@ -44,8 +44,8 @@ const MainNav = () => {
             className={cn(
               "flex items-center gap-4 px-6 py-4 rounded-full text-md font-medium transition-all",
               isActive 
-                ? cn(item.bgColor, "bg-gradient-to-r from-purple-soft to-blue-blue text-white shadow-lg") 
-                : cn(item.textColor, "hover:bg-gray-100")
+                ? cn(item.bgColor, "bg-black text-white shadow-lg") 
+                : cn(item.textColor, "bg-white hover:bg-gray-100")
             )}
           >
             <Icon size={18} />

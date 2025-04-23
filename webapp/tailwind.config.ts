@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import type { PluginAPI } from 'tailwindcss/types/config'
 import animate from 'tailwindcss-animate'
 
 const config: Config = {
@@ -8,6 +9,9 @@ const config: Config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -42,7 +46,9 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Roboto', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        heading: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        nav: ['Space Grotesk', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
@@ -60,7 +66,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [animate],
+  plugins: [animate, function({ addBase, theme }: PluginAPI) {
+    addBase({
+      'h1, h2, h3, nav': {
+        fontFamily: theme('fontFamily.heading')
+      }
+    })
+  }],
 } satisfies Config
 
 export default config as Config
