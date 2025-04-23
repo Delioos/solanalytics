@@ -24,15 +24,25 @@ const config: Config = {
         'purple-blue': '#5E60CE',
         'deep-blue': '#5390D9',
         'blue-blue': '#4EA8DE',
-        'azur-deep': '#48BFE3',
-        'azur-azur': '#56CFE1',
-        'azur-green': '#64DFDF',
+        'azure-deep': '#48BFE3',
+        'azure-azure': '#56CFE1',
+        'azure-green': '#64DFDF',
         'green-deep': '#72EFDD',
         'green-mint': '#80FFDB',
+        background: '#FFFFFF',
+        foreground: '#000000',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
@@ -51,6 +61,6 @@ const config: Config = {
     },
   },
   plugins: [animate],
-}
+} satisfies Config
 
-export default config 
+export default config as Config

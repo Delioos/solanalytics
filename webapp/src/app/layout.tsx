@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/nav/MainNav";
 
@@ -8,9 +8,10 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-plus-jakarta-sans",
+  weight: ['400', '500', '600', '700'],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -24,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} font-sans antialiased`}>
-      <body className="min-h-screen bg-background">
+    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <body className="min-h-screen bg-background font-sans">
         <MainNav />
         {children}
       </body>
