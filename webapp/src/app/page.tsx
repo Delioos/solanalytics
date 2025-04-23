@@ -1,4 +1,4 @@
-import { ProductSalesCard } from "@/components/dashboard/ProductSalesCard"
+import ProductSalesCard from "@/components/dashboard/ProductSalesCard"
 
 export default function Home() {
   return (

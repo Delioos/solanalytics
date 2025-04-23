@@ -1,18 +1,29 @@
+'use client'
+import React, { useCallback } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { DonutChart } from "@tremor/react"
+import LineChart from "@/components/charts/LineChart"
 
-const salesData = [
-  { month: 'Feb', sales: 65 },
-  { month: 'Mar', sales: 59 },
-  { month: 'Apr', sales: 80 },
-  { month: 'May', sales: 81 },
-  { month: 'Jun', sales: 90 },
-  { month: 'Jul', sales: 85 },
-  { month: 'Aug', sales: 88 },
+interface DataPoint {
+  month: string;
+  sales: number;
+}
+
+interface AgeData {
+  name: string;
+  value: number;
+}
+
+const salesData: DataPoint[] = [
+  { month: "Jan", sales: 120 },
+  { month: "Feb", sales: 150 },
+  { month: "Mar", sales: 180 },
+  { month: "Apr", sales: 220 },
+  { month: "May", sales: 200 },
+  { month: "Jun", sales: 250 },
 ]
 
-const ageData = [
+const ageData: AgeData[] = [
   { name: "0-18", value: 10 },
   { name: "18-30", value: 40 },
   { name: "30-45", value: 25 },
@@ -20,7 +31,9 @@ const ageData = [
   { name: "60-75", value: 10 },
 ]
 
-export function ProductSalesCard() {
+const ProductSalesCard: React.FC = () => {
+  const valueFormatter = useCallback((value: number) => `${value}%`, [])
+
   return (
     <div className="grid gap-4 p-4">
       <div className="flex items-center justify-between">
@@ -40,21 +53,13 @@ export function ProductSalesCard() {
             <CardTitle>Total sales</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={salesData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line 
-                    type="monotone" 
-                    dataKey="sales" 
-                    stroke="#5E60CE" 
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+            <div className="h-[400px]">
+              <LineChart 
+                data={salesData}
+                height={400}
+                width={800}
+                color="#5E60CE"
+              />
             </div>
           </CardContent>
         </Card>
@@ -68,7 +73,7 @@ export function ProductSalesCard() {
               data={ageData}
               category="value"
               index="name"
-              valueFormatter={(number: number) => `${number}%`}
+              valueFormatter={valueFormatter}
               colors={[
                 "purple-hard",
                 "purple-soft",
@@ -113,4 +118,6 @@ export function ProductSalesCard() {
       </Card>
     </div>
   )
-} 
+}
+
+export default ProductSalesCard 
