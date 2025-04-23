@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/nav/MainNav";
 
@@ -8,15 +8,15 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const poppins = Poppins({
+const roboto = Roboto({
   subsets: ["latin"],
-  weight: ['400', '500', '600', '700'],
-  variable: "--font-poppins",
+  weight: ['300', '400', '500', '700'],
+  variable: "--font-roboto",
 });
 
 export const metadata: Metadata = {
-  title: "Sales Dashboard",
-  description: "Modern sales dashboard with analytics",
+  title: "Medaillon Analytics",
+  description: "Data-driven protocol development and analytics platform for Solana ecosystem",
 };
 
 export default function RootLayout({
@@ -25,8 +25,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="min-h-screen bg-background font-sans">
+    <html lang="en" className={`${inter.variable} ${roboto.variable}`}>
+      <body className="min-h-screen bg-gradient-to-br from-white via-purple-blue/20 to-purple-hard/10 font-sans">
         <MainNav />
         {children}
       </body>

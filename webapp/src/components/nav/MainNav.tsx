@@ -32,7 +32,7 @@ const MainNav = () => {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center space-x-2 p-4 bg-white text-black">
+    <nav className="flex items-center space-x-2 p-4 text-black">
       {navItems.map((item) => {
         const isActive = pathname === item.href
         const Icon = item.icon
@@ -42,9 +42,9 @@ const MainNav = () => {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
+              "flex items-center gap-4 px-6 py-4 rounded-full text-md font-medium transition-all",
               isActive 
-                ? cn(item.bgColor, "bg-gradient-to-r from-purple-blue to-green-deep text-white shadow-lg") 
+                ? cn(item.bgColor, "bg-gradient-to-r from-purple-soft to-blue-blue text-white shadow-lg") 
                 : cn(item.textColor, "hover:bg-gray-100")
             )}
           >
