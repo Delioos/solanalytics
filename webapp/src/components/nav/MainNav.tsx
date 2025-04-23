@@ -10,29 +10,21 @@ const navItems = [
     name: 'Dashboard',
     href: '/',
     icon: LayoutGrid,
-    bgColor: 'bg-purple-hard',
-    textColor: 'text-purple-hard'
   },
   {
     name: 'Analytics',
     href: '/analytics',
     icon: LineChart,
-    bgColor: 'bg-purple-blue',
-    textColor: 'text-purple-blue'
   },
   {
     name: 'Articles',
     href: '/articles',
     icon: FileText,
-    bgColor: 'bg-deep-blue',
-    textColor: 'text-deep-blue'
   },
   {
     name: 'Data',
     href: '/data',
     icon: Database,
-    bgColor: 'bg-azur-deep',
-    textColor: 'text-azur-deep'
   }
 ]
 
@@ -40,7 +32,7 @@ const MainNav = () => {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center space-x-2 p-4 bg-purple-hard">
+    <nav className="flex items-center space-x-2 p-4 bg-white text-black">
       {navItems.map((item) => {
         const isActive = pathname === item.href
         const Icon = item.icon
@@ -52,7 +44,7 @@ const MainNav = () => {
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
               isActive 
-                ? cn(item.bgColor, "text-white shadow-lg") 
+                ? cn(item.bgColor, "bg-gradient-to-r from-purple-blue to-green-deep text-white shadow-lg") 
                 : cn(item.textColor, "hover:bg-gray-100")
             )}
           >

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const SalesSummary: React.FC = () => {
   return (
-    <Card className="bg-white rounded-2xl shadow-lg">
+    <Card className="bg-white rounded-2xl shadow-lg bg-foreground">
       <CardHeader className="p-6">
         <CardTitle className="text-xl font-display">Sales Summary</CardTitle>
       </CardHeader>
