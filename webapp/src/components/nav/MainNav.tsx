@@ -34,7 +34,9 @@ const MainNav = () => {
   return (
     <nav className="flex items-center space-x-2 p-4 text-black">
       {navItems.map((item) => {
-        const isActive = pathname === item.href
+        const isActive = item.href === '/' 
+          ? pathname === item.href
+          : pathname.startsWith(item.href)
         const Icon = item.icon
 
         return (
@@ -44,8 +46,8 @@ const MainNav = () => {
             className={cn(
               "flex items-center gap-4 px-6 py-4 rounded-full text-md font-medium transition-all",
               isActive 
-                ? cn(item.bgColor, "bg-black text-white shadow-lg") 
-                : cn(item.textColor, "bg-white hover:bg-gray-100")
+                ? "bg-black text-white shadow-lg"
+                : "bg-white hover:bg-gray-100"
             )}
           >
             <Icon size={18} />
