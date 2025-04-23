@@ -10,11 +10,11 @@ export function PumpFunAnalyticsDashboard() {
   return (
     <ResizablePanelGroup
       direction="vertical"
-      className="min-h-[800px] max-w-7xl mx-auto rounded-lg border"
+      className="min-h-[800px] w-full gap-6"
     >
       {/* First Row */}
       <ResizablePanel defaultSize={50}>
-        <ResizablePanelGroup direction="horizontal">
+        <ResizablePanelGroup direction="horizontal" className="gap-6">
           <ResizablePanel defaultSize={30}>
             <TotalMetricsCard
               title="Total Deployments"
@@ -22,10 +22,10 @@ export function PumpFunAnalyticsDashboard() {
               subtitle="↗️ +20.1% from last month"
             />
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle className="invisible" />
           <ResizablePanel defaultSize={70}>
             <ChartCard title="Deployment Trends">
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              <div className="h-[300px] flex items-center justify-center text-white/60">
                 Chart placeholder
               </div>
             </ChartCard>
@@ -33,19 +33,19 @@ export function PumpFunAnalyticsDashboard() {
         </ResizablePanelGroup>
       </ResizablePanel>
 
-      <ResizableHandle />
+      <ResizableHandle className="invisible" />
 
       {/* Second Row */}
       <ResizablePanel defaultSize={50}>
-        <ResizablePanelGroup direction="horizontal">
+        <ResizablePanelGroup direction="horizontal" className="gap-6">
           <ResizablePanel defaultSize={70}>
             <ChartCard title="Volume Analysis">
-              <div className="h-[200px] flex items-center justify-center text-muted-foreground">
+              <div className="h-[300px] flex items-center justify-center text-white/60">
                 Volume chart placeholder
               </div>
             </ChartCard>
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle className="invisible" />
           <ResizablePanel defaultSize={30}>
             <TotalMetricsCard
               title="Total Volume"
