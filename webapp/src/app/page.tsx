@@ -8,6 +8,7 @@ import PartnersSection from '@/components/PartnersSection';
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  /*
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -161,15 +162,24 @@ export default function Home() {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
+  */
 
   return (
-    <main className="min-h-screen relative">
+    <main className="min-h-screen relative overflow-hidden h-screen fixed inset-0">
+      <style jsx global>{`
+        html, body {
+          overflow: hidden;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+        }
+      `}</style>
       <canvas
         ref={canvasRef}
         className="fixed inset-0 w-full h-full pointer-events-none"
       />
       <div className="container mx-auto py-12 px-4 relative z-10">
-        <div className="max-w-3xl mx-auto border border-2 border-gray-900 rounded-xl p-8">
+        <div className="max-w-3xl mx-auto  border-2 border-gray-900 rounded-xl p-8">
           <h1 className="text-4xl font-bold mb-4">Decoding Solana's Future Through Data-Driven Intelligence</h1>
           <p className="mb-8">
             Comprehensive analytics dashboard tracking mass deployment patterns and metrics coming soon
