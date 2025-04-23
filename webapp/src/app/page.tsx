@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import PartnersSection from '@/components/PartnersSection';
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,7 +27,7 @@ export default function Home() {
     const drawGrid = () => {
       if (!ctx) return;
       const gridSize = 40;
-      const gridColor = 'rgba(255, 255, 255, 0.03)';
+      const gridColor = 'rgba(0, 0, 0, 0.06)';
       
       ctx.strokeStyle = gridColor;
       ctx.lineWidth = 0.5;
@@ -50,7 +51,6 @@ export default function Home() {
 
     // Trail particles array
     const particles: TrailParticle[] = [];
-    const maxParticles = 30;
 
     class TrailParticle {
       x: number;
@@ -75,7 +75,7 @@ export default function Home() {
 
       update() {
         this.rotation += this.rotationSpeed;
-        this.opacity = Math.max(0, 1 - (Date.now() - this.createdAt) / 1500);
+        this.opacity = Math.max(0, 1 - (Date.now() - this.createdAt) / 3000);
       }
 
       draw() {
@@ -84,7 +84,7 @@ export default function Home() {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
         ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
 
         switch (this.shape) {
           case 'square':
@@ -130,9 +130,10 @@ export default function Home() {
       // Draw grid
       drawGrid();
 
-      // Add new particles if mouse moved
+      // Add new particles continuously
       if (mouseX !== lastMouseX || mouseY !== lastMouseY) {
-        if (particles.length < maxParticles) {
+        // Create multiple particles at once for denser trail
+        for (let i = 0; i < 3; i++) {
           particles.push(new TrailParticle(mouseX, mouseY));
         }
       }
@@ -169,7 +170,7 @@ export default function Home() {
       />
       <div className="container mx-auto py-12 px-4 relative z-10">
         <div className="max-w-3xl mx-auto border border-2 border-gray-900 rounded-xl p-8">
-          <h1 className="text-4xl font-bold mb-4">Solana Global Metrics</h1>
+          <h1 className="text-4xl font-bold mb-4">Decoding Solana's Future Through Data-Driven Intelligence</h1>
           <p className="mb-8">
             Comprehensive analytics dashboard tracking mass deployment patterns and metrics coming soon
           </p>
@@ -209,6 +210,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <PartnersSection />
     </main>
   );
 }
