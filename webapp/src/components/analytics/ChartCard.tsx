@@ -7,9 +7,9 @@ interface ChartCardProps {
 
 export function ChartCard({ title, children }: ChartCardProps) {
   return (
-    <Card className="h-full bg-white/10 border-none text-white">
+    <Card className="h-full bg-black/10 border-none text-black">
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-white/80">{title}</CardTitle>
+        <CardTitle className="text-sm font-medium text-black/80">{title}</CardTitle>
       </CardHeader>
       <CardContent className="p-6">
         {children}

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 const SalesSummary: React.FC = () => {
   return (
-    <Card className="bg-white rounded-2xl shadow-lg bg-foreground">
+    <Card className="bg-black rounded-2xl shadow-lg bg-foreground">
       <CardHeader className="p-6">
         <CardTitle className="text-xl font-display">Sales Summary</CardTitle>
       </CardHeader>
@@ -15,7 +15,7 @@ const SalesSummary: React.FC = () => {
             <div className="bg-gradient-to-br from-purple-soft/10 to-purple-blue/5 p-6 rounded-2xl">
               <p className="text-3xl font-bold text-purple-hard">34,200</p>
               <p className="text-sm text-muted-foreground mt-1">Sales</p>
-              <div className="mt-3 text-xs bg-purple-soft text-white px-3 py-1 rounded-full inline-block">
+              <div className="mt-3 text-xs bg-purple-soft text-black px-3 py-1 rounded-full inline-block">
                 3% Growth
               </div>
             </div>
@@ -25,7 +25,7 @@ const SalesSummary: React.FC = () => {
             <div className="bg-gradient-to-br from-deep-blue/10 to-azur-deep/5 p-6 rounded-2xl">
               <p className="text-3xl font-bold text-deep-blue">28,322</p>
               <p className="text-sm text-muted-foreground mt-1">Sales</p>
-              <div className="mt-3 text-xs bg-deep-blue text-white px-3 py-1 rounded-full inline-block">
+              <div className="mt-3 text-xs bg-deep-blue text-black px-3 py-1 rounded-full inline-block">
                 8% Growth
               </div>
             </div>

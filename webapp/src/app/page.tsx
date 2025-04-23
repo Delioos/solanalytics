@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -64,17 +65,17 @@ export default function Home() {
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 3 + 1;
+        this.size = Math.random() * 12 + 8;
         this.shape = ['square', 'triangle', 'circle'][Math.floor(Math.random() * 3)] as 'square' | 'triangle' | 'circle';
         this.opacity = 1;
         this.rotation = Math.random() * Math.PI * 2;
-        this.rotationSpeed = (Math.random() - 0.5) * 0.05;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.03;
         this.createdAt = Date.now();
       }
 
       update() {
         this.rotation += this.rotationSpeed;
-        this.opacity = Math.max(0, 1 - (Date.now() - this.createdAt) / 1000);
+        this.opacity = Math.max(0, 1 - (Date.now() - this.createdAt) / 1500);
       }
 
       draw() {
@@ -83,7 +84,7 @@ export default function Home() {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.rotation);
         ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
 
         switch (this.shape) {
           case 'square':
@@ -167,33 +168,42 @@ export default function Home() {
         className="fixed inset-0 w-full h-full pointer-events-none"
       />
       <div className="container mx-auto py-12 px-4 relative z-10">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-4">Solana Global Metrics</h1>
-          <p className="text-white/80 mb-8">
+        <div className="max-w-3xl mx-auto border border-2 border-gray-900 rounded-xl p-8">
+          <h1 className="text-4xl font-bold mb-4">Solana Global Metrics</h1>
+          <p className="mb-8">
             Comprehensive analytics dashboard tracking mass deployment patterns and metrics coming soon
           </p>
           
-          <div className="bg-white/5 backdrop-blur-sm rounded-xl p-8 mb-12">
-            <h2 className="text-2xl font-semibold text-white mb-4">About Medallion</h2>
-            <p className="text-white/80 mb-6">
-              Medallion is building the future of Solana analytics. Our mission is to make Solana more attractive 
+          <div className="bg-black/5 backdrop-blur-sm rounded-xl p-8 mb-12">
+            <div className="mb-6">
+              <Image
+                src="/MedallionAnalytics.png"
+                alt="Medallion Analytics"
+                width={300}
+                height={100}
+                className="mb-6"
+                priority
+              />
+            </div>
+            <p className="text-black/80 mb-6">
+              We're building the future of Solana analytics. Our mission is to make Solana more attractive 
               through transparency and user-friendly protocols. We're creating tools that bring clarity to complex 
               blockchain data, making it accessible and actionable for everyone.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link 
-                href="/analytics/mass-deployers"
-                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-gray-700 to-gray-600 text-white font-medium rounded-lg hover:from-gray-600 hover:to-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
+                href="/analytics/mass-deployers" 
+                className="inline-flex items-center justify-center px-6 py-3 bg-white text-black font-medium rounded-lg hover:from-gray-600 hover:to-gray-500 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
                 View First Metrics Report
               </Link>
               <Link 
-                href="https://twitter.com/medallion" 
+                href="https://medium.com/@medallion" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 py-3 bg-white/10 text-white font-medium rounded-lg hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20 focus:ring-offset-2 focus:ring-offset-gray-900"
+                className="inline-flex items-center justify-center px-6 py-3 bg-black/10 text-black font-medium rounded-lg hover:bg-black/20 transition-colors focus:outline-none focus:ring-2 focus:ring-black/20 focus:ring-offset-2 focus:ring-offset-gray-900"
               >
-                Follow on Twitter
+                Follow on Medium
               </Link>
             </div>
           </div>

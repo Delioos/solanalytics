@@ -20,7 +20,7 @@ const AgeDistribution: React.FC = () => {
   const valueFormatter = useCallback((value: number) => `${value}%`, [])
 
   return (
-    <Card className="bg-white rounded-2xl shadow-lg">
+    <Card className="bg-black rounded-2xl shadow-lg">
       <CardHeader className="p-6">
         <CardTitle className="text-xl font-display">Age Range</CardTitle>
       </CardHeader>

@@ -9,7 +9,7 @@ const DashboardHeader: React.FC = () => {
         <p className="text-sm text-muted-foreground">Sales → Tech Products</p>
       </div>
       <div className="flex items-center space-x-4">
-        <button className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-soft to-purple-blue text-white font-medium shadow-lg hover:shadow-xl transition-all">
+        <button className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-soft to-purple-blue text-black font-medium shadow-lg hover:shadow-xl transition-all">
           Add Widget
         </button>
         <button className="px-4 py-2 rounded-full border-2 border-purple-soft text-purple-soft font-medium hover:bg-purple-soft/5 transition-all">

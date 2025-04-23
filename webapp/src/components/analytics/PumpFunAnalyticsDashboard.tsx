@@ -25,7 +25,7 @@ export function PumpFunAnalyticsDashboard() {
           <ResizableHandle className="invisible" />
           <ResizablePanel defaultSize={70}>
             <ChartCard title="Deployment Trends">
-              <div className="h-[300px] flex items-center justify-center text-white/60">
+              <div className="h-[300px] flex items-center justify-center text-black/60">
                 Chart placeholder
               </div>
             </ChartCard>
@@ -40,7 +40,7 @@ export function PumpFunAnalyticsDashboard() {
         <ResizablePanelGroup direction="horizontal" className="gap-6">
           <ResizablePanel defaultSize={70}>
             <ChartCard title="Volume Analysis">
-              <div className="h-[300px] flex items-center justify-center text-white/60">
+              <div className="h-[300px] flex items-center justify-center text-black/60">
                 Volume chart placeholder
               </div>
             </ChartCard>

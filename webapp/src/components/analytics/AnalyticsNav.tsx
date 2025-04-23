@@ -14,7 +14,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
       href={href}
       className={cn(
         "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors",
-        isActive ? "bg-white text-black" : "text-white/90 hover:text-white hover:bg-white/10"
+        isActive ? "bg-black text-black" : "text-black/90 hover:text-black hover:bg-black/10"
       )}
     >
       <span className="text-lg">{icon}</span>

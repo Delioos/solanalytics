@@ -19,7 +19,7 @@ const salesData: DataPoint[] = [
 
 const SalesChart: React.FC = () => {
   return (
-    <Card className="col-span-2 bg-white rounded-2xl shadow-lg">
+    <Card className="col-span-2 bg-black rounded-2xl shadow-lg">
       <CardHeader className="p-6">
         <CardTitle className="text-xl font-display">Total sales</CardTitle>
       </CardHeader>

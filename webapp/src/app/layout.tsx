@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-screen bg-gradient-to-br from-blue-blue to-purple-hard font-sans">
+      <body className="min-h-screen bg-[#E9EEEA] text-black font-sans">
         <MainNav />
         {children}
       </body>
