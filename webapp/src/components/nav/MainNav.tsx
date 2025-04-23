@@ -1,16 +1,12 @@
 'use client'
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { LayoutGrid, LineChart, FileText, Database } from 'lucide-react'
+import { LineChart, FileText, Database } from 'lucide-react'
 
 const navItems = [
-  {
-    name: 'Dashboard',
-    href: '/',
-    icon: LayoutGrid,
-  },
   {
     name: 'Analytics',
     href: '/analytics',
@@ -32,11 +28,19 @@ const MainNav = () => {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center space-x-2 p-4 text-black">
+    <nav className="flex items-center space-x-8 p-6 text-black">
+      <Link href="/" className="mr-16">
+        <Image
+          src="/MedallionAnalytics.png"
+          alt="Medallion Analytics"
+          width={300}
+          height={100}
+          className="hover:opacity-90 transition-opacity"
+          priority
+        />
+      </Link>
       {navItems.map((item) => {
-        const isActive = item.href === '/' 
-          ? pathname === item.href
-          : pathname.startsWith(item.href)
+        const isActive = pathname.startsWith(item.href)
         const Icon = item.icon
 
         return (
