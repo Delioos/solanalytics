@@ -59,7 +59,7 @@ export async function getAnalysisData(): Promise<AnalysisData[]> {
     {
       title: "New vs Returning Deployers",
       description: "Analysis of new and returning token deployers over time, showing trends in deployment behavior. This analysis tracks the number of new and returning deployers on a daily basis over the last 180 days.",
-      duneUrl: "https://dune.com/queries/1234567",
+      duneUrl: "https://dune.com/queries/5014815",
       csvData: newVsReturningCsv,
       sqlQuery: newVsReturningSql,
       csvFileName: "newvsreturning-dune.csv"
@@ -67,7 +67,7 @@ export async function getAnalysisData(): Promise<AnalysisData[]> {
     {
       title: "Behavioral Patterns of Top 100 Deployers",
       description: "Detailed analysis of deployment patterns, timing, and profitability metrics for the most active deployers. This analysis focuses on creators who have launched 5 or more tokens in the last 180 days, examining their launch frequency, time to first sell, and overall profitability.",
-      duneUrl: "https://dune.com/queries/2345678",
+      duneUrl: "https://dune.com/queries/5021345",
       csvData: behaviourialPatternCsv,
       sqlQuery: behaviourialPatternSql,
       csvFileName: "behaviourialPatternTOP100.csv"
@@ -75,7 +75,7 @@ export async function getAnalysisData(): Promise<AnalysisData[]> {
     {
       title: "P&L Analysis per Deployer",
       description: "Profit and loss analysis for each deployer, showing total profits, token counts, and success rates. This analysis calculates the total SOL profit, number of tokens created, and success rate for each deployer who has launched 5 or more tokens.",
-      duneUrl: "https://dune.com/queries/3456789",
+      duneUrl: "https://dune.com/queries/5022554",
       csvData: pnlPerDeployerCsv,
       sqlQuery: pnlAggregationSql,
       csvFileName: "pnlPerDeployer.csv"
@@ -83,7 +83,7 @@ export async function getAnalysisData(): Promise<AnalysisData[]> {
     {
       title: "Top 10 vs Median Deployer Comparison",
       description: "Comparison of key metrics between the top 10 most profitable deployers and the median deployer. This analysis compares average profit, token creation rate, launch frequency, and time to first sell between the most successful deployers and the median performer.",
-      duneUrl: "https://dune.com/queries/4567890",
+      duneUrl: "https://dune.com/queries/5022552",
       csvData: top10vsMedianCsv,
       sqlQuery: top10vsMedianDeployerSql,
       csvFileName: "top10againstMedian.csv"
@@ -91,7 +91,7 @@ export async function getAnalysisData(): Promise<AnalysisData[]> {
     {
       title: "Profitable Deployers Analysis",
       description: "Analysis of deployer profitability, showing success rates and overall market impact. This analysis classifies deployers as profitable or not based on their total SOL profit, and calculates the percentage of profitable deployers and their contribution to total token launches.",
-      duneUrl: "https://dune.com/queries/5678901",
+      duneUrl: "https://dune.com/queries/5015016",
       csvData: profitableDeployersCsv,
       sqlQuery: profitableDeployersSql,
       csvFileName: "profitable_deployers_analysis.csv"

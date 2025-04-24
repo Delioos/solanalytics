@@ -24,7 +24,7 @@ const AnalysisCard = ({ title, description, duneUrl, csvData, sqlQuery, csvFileN
         className="w-full p-6 flex items-center justify-between hover:bg-gray-50 transition-colors"
       >
         <div className="flex items-center space-x-4">
-          <div className="p-3 bg-blue-100 rounded-lg">
+          <div className="p-3 bg-purple-hard/10 rounded-lg">
             {icon}
           </div>
           <div className="text-left">
@@ -49,7 +49,7 @@ const AnalysisCard = ({ title, description, duneUrl, csvData, sqlQuery, csvFileN
                 href={duneUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors shadow-sm"
+                className="flex items-center px-4 py-2 bg-purple-soft text-white rounded-lg hover:bg-blue-600 transition-colors shadow-sm"
               >
                 <ExternalLink size={16} className="mr-2" />
                 View on Dune
@@ -57,7 +57,7 @@ const AnalysisCard = ({ title, description, duneUrl, csvData, sqlQuery, csvFileN
               <CSVLink
                 data={csvData}
                 filename={csvFileName}
-                className="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors shadow-sm"
+                className="flex items-center px-4 py-2 bg-deep-blue text-white rounded-lg hover:bg-purple-blue transition-colors shadow-sm"
               >
                 <Download size={16} className="mr-2" />
                 Download CSV
@@ -74,6 +74,13 @@ const AnalysisCard = ({ title, description, duneUrl, csvData, sqlQuery, csvFileN
                   scroll={{ x: true }}
                   size="small"
                   className="rounded-lg"
+                  rowKey={(record) => {
+                    // Create a unique key by combining all column values
+                    const keyParts = Object.entries(record).map(([key, value]) => 
+                      `${key}:${value}`
+                    );
+                    return keyParts.join('|');
+                  }}
                 />
               </div>
             </div>
@@ -94,15 +101,15 @@ const AnalysisCard = ({ title, description, duneUrl, csvData, sqlQuery, csvFileN
 const getIconForAnalysis = (title: string) => {
   switch (title) {
     case "New vs Returning Deployers":
-      return <Users className="text-blue-500" size={24} />;
+      return <Users className="text-purple-hard" size={24} />;
     case "Behavioral Patterns of Top 100 Deployers":
-      return <Activity className="text-purple-500" size={24} />;
+      return <Activity className="text-purple-blue" size={24} />;
     case "P&L Analysis per Deployer":
-      return <DollarSign className="text-green-500" size={24} />;
+      return <DollarSign className="text-azur-deep" size={24} />;
     case "Top 10 vs Median Deployer Comparison":
-      return <BarChart2 className="text-orange-500" size={24} />;
+      return <BarChart2 className="text-azur-green" size={24} />;
     case "Profitable Deployers Analysis":
-      return <TrendingUp className="text-red-500" size={24} />;
+      return <TrendingUp className="text-green-mint" size={24} />;
     default:
       return <Database className="text-gray-500" size={24} />;
   }
@@ -115,10 +122,10 @@ export default function DataPageClient({ analyses }: { analyses: AnalysisData[] 
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen  py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Token Deployment Analytics</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Token Deployment Analytics Data Room</h1>
           <p className="text-xl text-gray-600">
             Explore detailed analyses of token deployment patterns, profitability, and market behavior
           </p>
