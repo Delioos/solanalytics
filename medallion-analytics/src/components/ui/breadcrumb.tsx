@@ -18,11 +18,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
           ) : null}
           <Link
             href={item.href}
-            className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
-              index === items.length - 1
-                ? 'text-gray-600 bg-gray-100/80'
-                : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
-            }`}
+            className={`flex items-center py-2 rounded-lg transition-colors text-gray-600 hover:text-gray-900`}
           >
             <FolderOpen
               className={`h-5 w-5 mr-2.5 ${
