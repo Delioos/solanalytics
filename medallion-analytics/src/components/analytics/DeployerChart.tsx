@@ -11,9 +11,9 @@ interface DataPoint {
 
 // Updated Color Definitions
 const purpleSoft = '#6930C3'; // User provided
-const greenDeep = '#72EFDD';   // User provided
-const blueBlue = '#4EA8DE';    // User provided
-const azurDeep = '#48BFE3';    // User provided
+const blueBlue = '#72EFDD';   // User provided
+const greenDeep = '#4EA8DE';    // User provided
+const azurDeep = '#80FFDB';    // User provided
 
 const DeployerChart: React.FC = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
@@ -115,7 +115,10 @@ const DeployerChart: React.FC = () => {
       .tickSizeOuter(0)
       .tickFormat(d => d instanceof Date ? d3.timeFormat("%b")(d) : ' ');
 
-    const yAxis = d3.axisLeft(y).ticks(height / 40);
+    const yAxis = d3.axisLeft(y)
+      .ticks(height / 40)
+      .tickFormat(d => `${Math.abs(d as number)}`);
+
     const yRatioAxis = d3.axisRight(yRatio).ticks(height / 40);
 
     svg.attr('viewBox', [0, 0, width, height])
@@ -131,20 +134,26 @@ const DeployerChart: React.FC = () => {
       .call(g => g.selectAll('.tick text').attr('fill', 'currentColor').attr('font-size', '12px'));
 
     // Y Axis (Deployers)
-    svg.append('g')
-      .attr('transform', `translate(${marginLeft},0)`)
-      .call(yAxis)
+    const yAxisGroup = svg.append('g')
+      .attr('transform', `translate(${marginLeft},0)`);
+
+    yAxisGroup.call(yAxis)
       .call(g => g.select('.domain').remove())
       .call(g => g.selectAll('.tick line').clone()
           .attr('x2', width - marginLeft - marginRight)
           .attr('stroke-opacity', 0.1))
-      .call(g => g.selectAll('.tick text').attr('font-size', '12px'))
-      .call(g => g.select('.tick:last-of-type text').clone()
-          .attr('x', 3)
-          .attr('text-anchor', 'start')
-          .attr('font-weight', 'bold')
-          .attr('fill', 'currentColor')
-          .text('Deployers'));
+      .call(g => g.selectAll('.tick text').attr('font-size', '12px'));
+
+    // Add Y-axis label separately
+    yAxisGroup.append('text')
+      .attr('y', marginTop)
+      .attr('x', marginLeft - 100)
+      .attr('dy', '-0.5em')
+      .style('text-anchor', 'start')
+      .attr('font-size', '12px')
+      .attr('font-weight', 'bold')
+      .attr('fill', 'currentColor')
+      .text('Deployers');
 
     // Y Axis (Ratio)
     svg.append('g')
