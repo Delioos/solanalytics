@@ -90,11 +90,8 @@ const DeployerChart: React.FC = () => {
       ratio: d.returning_deployers === 0 ? (d.new_deployers > 0 ? Infinity : 0) : d.new_deployers / d.returning_deployers
     })).filter(d => isFinite(d.ratio));
 
-    const ratioExtent = d3.extent(dataWithRatio, d => d.ratio) as [number, number] || [0, 1];
-    if (ratioExtent[0] === ratioExtent[1]) {
-        ratioExtent[0] = ratioExtent[0] * 0.8;
-        ratioExtent[1] = ratioExtent[1] * 1.2 || 1;
-    }
+    // Find max absolute ratio for symmetric axis
+    const maxAbsRatio = d3.max(dataWithRatio, d => Math.abs(d.ratio)) || 1; // Default to 1 if no data
 
     const x = d3.scaleTime()
       .domain(d3.extent(data, d => d.date) as [Date, Date])
@@ -105,8 +102,9 @@ const DeployerChart: React.FC = () => {
       .range([height - marginBottom, marginTop])
       .nice();
 
+    // Update yRatio domain to be symmetric
     const yRatio = d3.scaleLinear()
-        .domain(ratioExtent)
+        .domain([-maxAbsRatio, maxAbsRatio])
         .range([height - marginBottom, marginTop])
         .nice();
 
@@ -119,7 +117,10 @@ const DeployerChart: React.FC = () => {
       .ticks(height / 40)
       .tickFormat(d => `${Math.abs(d as number)}`);
 
-    const yRatioAxis = d3.axisRight(yRatio).ticks(height / 40);
+    // Update yRatioAxis tickFormat for absolute values
+    const yRatioAxis = d3.axisRight(yRatio)
+        .ticks(height / 40)
+        .tickFormat(d => `${Math.abs(d as number).toFixed(1)}`); // Show absolute & format
 
     svg.attr('viewBox', [0, 0, width, height])
        .attr('preserveAspectRatio', 'xMidYMid meet')
@@ -182,20 +183,20 @@ const DeployerChart: React.FC = () => {
         .style('box-shadow', '0 2px 5px rgba(0,0,0,0.1)')
         .style('white-space', 'nowrap');
 
-    // Bars for Returning Deployers (Purple Soft)
+    // Bars for New Deployers (Green Deep, UP)
     svg.append('g')
-      .attr('fill', purpleSoft)
+      .attr('fill', greenDeep)
       .selectAll('rect')
       .data(data)
       .join('rect')
         .attr('x', d => (x(d.date) ?? 0) - barWidth / 2)
-        .attr('y', d => y(d.returning_deployers))
+        .attr('y', d => y(d.new_deployers))
         .attr('width', barWidth)
-        .attr('height', d => Math.max(0, y(0) - y(d.returning_deployers)))
+        .attr('height', d => Math.max(0, y(0) - y(d.new_deployers)))
         .style('cursor', 'pointer')
         .on('mouseover', (event, d) => {
             tooltip.style('visibility', 'visible')
-                   .html(`<strong>Returning:</strong> ${d.returning_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
+                   .html(`<strong>New:</strong> ${d.new_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })
         .on('mousemove', (event) => {
             const [pointerX, pointerY] = d3.pointer(event, containerRef.current);
@@ -206,20 +207,20 @@ const DeployerChart: React.FC = () => {
             tooltip.style('visibility', 'hidden');
         });
 
-    // Bars for New Deployers (Green Deep)
+    // Bars for Returning Deployers (Purple Soft, DOWN)
     svg.append('g')
-      .attr('fill', greenDeep)
+      .attr('fill', purpleSoft)
       .selectAll('rect')
       .data(data)
       .join('rect')
         .attr('x', d => (x(d.date) ?? 0) - barWidth / 2)
         .attr('y', y(0))
         .attr('width', barWidth)
-        .attr('height', d => Math.max(0, y(-d.new_deployers) - y(0)))
+        .attr('height', d => Math.max(0, y(-d.returning_deployers) - y(0)))
         .style('cursor', 'pointer')
         .on('mouseover', (event, d) => {
             tooltip.style('visibility', 'visible')
-                   .html(`<strong>New:</strong> ${d.new_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
+                   .html(`<strong>Returning:</strong> ${d.returning_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })
         .on('mousemove', (event) => {
             const [pointerX, pointerY] = d3.pointer(event, containerRef.current);
