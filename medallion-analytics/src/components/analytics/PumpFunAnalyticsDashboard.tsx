@@ -49,7 +49,7 @@ export function PumpFunAnalyticsDashboard() {
           <ResizablePanel defaultSize={33}>
             <ResizablePanelGroup direction="horizontal" className="gap-2">
               <ResizablePanel defaultSize={70}>
-                <ChartCard title="Volume Analysis" />
+                <ChartCard title="New vs Returning Deployers Trend" />
               </ResizablePanel>
               <ResizableHandle className="invisible" />
               <ResizablePanel defaultSize={30}>

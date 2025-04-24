@@ -182,7 +182,7 @@ export default function Home() {
       />
       <div className="container mx-auto py-12 px-4 relative z-10">
         <div className="max-w-3xl mx-auto  border-2 border-gray-900 rounded-xl p-8">
-          <h1 className="text-4xl font-bold mb-4">Decoding Solana's Future Through Data-Driven Intelligence</h1>
+          <h1 className="text-3xl font-bold mb-4">Decoding Solana's Future Through Data-Driven Intelligence</h1>
           <p className="mb-8">
             Comprehensive analytics dashboard tracking mass deployment patterns and metrics coming soon
           </p>

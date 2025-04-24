@@ -10,18 +10,18 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav className="flex items-center space-x-2 text-base">
+    <nav className="flex items-center space-x-2 text-sm">
       {items.map((item, index) => (
         <div key={item.href} className="flex items-center">
           {index > 0 ? (
-            <ArrowRight className="h-5 w-5 mx-3 text-gray-400" strokeWidth={1.5} />
+            <ArrowRight className="h-4 w-4 mx-2 text-gray-400" strokeWidth={1.5} />
           ) : null}
           <Link
             href={item.href}
-            className={`flex items-center py-2 rounded-lg transition-colors text-gray-600 hover:text-gray-900`}
+            className={`flex items-center py-1 rounded-lg transition-colors text-gray-600 hover:text-gray-900`}
           >
             <FolderOpen
-              className={`h-5 w-5 mr-2.5 ${
+              className={`h-4 w-4 mr-2 ${
                 index === items.length - 1 ? 'text-gray-500' : 'text-gray-600'
               }`}
               strokeWidth={1.5}

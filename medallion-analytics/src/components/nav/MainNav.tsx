@@ -28,13 +28,13 @@ const MainNav = () => {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center space-x-8 p-6 text-black">
-      <Link href="/" className="mr-16">
+    <nav className="flex items-center space-x-4 p-4 text-black">
+      <Link href="/" className="mr-8">
         <Image
           src="/MedallionAnalytics.png"
           alt="Medallion Analytics"
-          width={300}
-          height={100}
+          width={200}
+          height={70}
           className="hover:opacity-90 transition-opacity"
           priority
         />
@@ -48,13 +48,13 @@ const MainNav = () => {
             key={item.href}
             href={item.href}
             className={cn(
-              "flex items-center gap-4 px-6 py-4 rounded-full text-md font-medium transition-all",
+              "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all",
               isActive 
                 ? "bg-black text-white shadow-lg"
                 : "bg-white hover:bg-gray-100"
             )}
           >
-            <Icon size={18} />
+            <Icon size={16} />
             <span>{item.name}</span>
           </Link>
         )

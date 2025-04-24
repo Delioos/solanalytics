@@ -66,7 +66,7 @@ const PartnersSection = () => {
   const duplicatedPartners = [...partners, ...partners, ...partners];
 
   return (
-    <div className="w-full overflow-hidden py-12">
+    <div className="w-full overflow-hidden py-2">
       <div className="max-w-3xl mx-auto px-4">
         <h2 className="text-center text-sm font-medium text-black/60 mb-8">
           Transparency and insights made possible by 

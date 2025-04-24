@@ -180,81 +180,28 @@ const HeatmapChart: React.FC = () => {
       .style('cursor', 'pointer')
       .on('mouseover', (event, d) => {
         tooltip
-          .classed('hidden', false)
           .style('display', 'block')
           .html(`
-            <div style="background: rgba(255, 255, 255, 0.95); padding: 10px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
-              <div style="font-weight: bold; margin-bottom: 5px;">${d.data.creator_address.slice(0, 8)}...</div>
+            <div class="p-2 text-xs">
+              <div class="font-medium">${d.data.creator_address.slice(0, 8)}...</div>
               <div>Profit Rate: ${d.data.profit_rate_percent.toFixed(1)}%</div>
               <div>Total Profit: ${d.data.total_profit_sol.toFixed(2)} SOL</div>
               <div>Tokens/Day: ${d.data.tokens_per_day.toFixed(1)}</div>
               <div>Days Active: ${d.data.days_active}</div>
             </div>
           `);
-        
-        const tooltipElement = tooltip.node();
-        const containerElement = containerRef.current;
-        if (tooltipElement && containerElement) {
-          const mouseX = event.pageX - containerElement.getBoundingClientRect().left;
-          const mouseY = event.pageY - containerElement.getBoundingClientRect().top;
-          const tooltipWidth = tooltipElement.offsetWidth;
-          const tooltipHeight = tooltipElement.offsetHeight;
-          const containerWidth = containerElement.offsetWidth;
-          const containerHeight = containerElement.offsetHeight;
 
-          // Position tooltip to avoid going outside container bounds
-          let left = mouseX + 10;
-          let top = mouseY + 10;
-
-          // Adjust if tooltip would go beyond right edge
-          if (left + tooltipWidth > containerWidth) {
-            left = mouseX - tooltipWidth - 10;
-          }
-
-          // Adjust if tooltip would go beyond bottom edge
-          if (top + tooltipHeight > containerHeight) {
-            top = mouseY - tooltipHeight - 10;
-          }
-
-          tooltip
-            .style('left', `${left}px`)
-            .style('top', `${top}px`);
-        }
+        tooltip
+          .style('left', `${event.offsetX}px`)
+          .style('top', `${event.offsetY}px`);
       })
       .on('mousemove', (event) => {
-        const tooltipElement = tooltip.node();
-        const containerElement = containerRef.current;
-        if (tooltipElement && containerElement) {
-          const mouseX = event.pageX - containerElement.getBoundingClientRect().left;
-          const mouseY = event.pageY - containerElement.getBoundingClientRect().top;
-          const tooltipWidth = tooltipElement.offsetWidth;
-          const tooltipHeight = tooltipElement.offsetHeight;
-          const containerWidth = containerElement.offsetWidth;
-          const containerHeight = containerElement.offsetHeight;
-
-          // Position tooltip to avoid going outside container bounds
-          let left = mouseX + 10;
-          let top = mouseY + 10;
-
-          // Adjust if tooltip would go beyond right edge
-          if (left + tooltipWidth > containerWidth) {
-            left = mouseX - tooltipWidth - 10;
-          }
-
-          // Adjust if tooltip would go beyond bottom edge
-          if (top + tooltipHeight > containerHeight) {
-            top = mouseY - tooltipHeight - 10;
-          }
-
-          tooltip
-            .style('left', `${left}px`)
-            .style('top', `${top}px`);
-        }
+        tooltip
+          .style('left', `${event.offsetX}px`)
+          .style('top', `${event.offsetY}px`);
       })
       .on('mouseout', () => {
-        tooltip
-          .classed('hidden', true)
-          .style('display', 'none');
+        tooltip.style('display', 'none');
       });
 
     // Add text labels (only for cells large enough)
@@ -296,11 +243,11 @@ const HeatmapChart: React.FC = () => {
               <svg ref={svgRef} style={{ width: '100%', height: '100%' }}></svg>
               <div
                 ref={tooltipRef}
-                className="absolute hidden"
+                className="absolute bg-white rounded-md shadow-sm border border-black/10"
                 style={{
-                  backgroundColor: 'white',
                   pointerEvents: 'none',
                   zIndex: 1000,
+                  display: 'none'
                 }}
               />
             </>
