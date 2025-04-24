@@ -9,18 +9,22 @@ interface DataPoint {
   returning_deployers: number;
 }
 
+// Updated Color Definitions
+const purpleSoft = '#6930C3'; // User provided
+const greenDeep = '#72EFDD';   // User provided
+const blueBlue = '#4EA8DE';    // User provided
+const azurDeep = '#48BFE3';    // User provided
+
 const DeployerChart: React.FC = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [data, setData] = useState<DataPoint[]>([]);
+  const [dimensions, setDimensions] = useState({ width: 800, height: 400 });
 
-  // TODO: Fetch and parse data
-  // TODO: D3 rendering logic
-
+  // Fetch data
   useEffect(() => {
-    // Example: Fetch data - replace with actual fetch
     const fetchData = async () => {
-      // Assuming the CSV is moved to public/data
       const csvUrl = '/data/newvsreturning-dune-2025-04-24T10-02-36.141Z.csv';
       try {
         const response = await fetch(csvUrl);
@@ -35,55 +39,63 @@ const DeployerChart: React.FC = () => {
           if (date && !isNaN(new_deployers) && !isNaN(returning_deployers)) {
             return { date, new_deployers, returning_deployers };
           }
-          return null; // Filter out invalid rows
+          return null;
         });
         setData(parsedData.filter(d => d !== null) as DataPoint[]);
       } catch (error) {
         console.error("Failed to fetch or parse data:", error);
-        // Handle error state appropriately
       }
     };
 
     fetchData();
   }, []);
 
-
+  // Resize observer
   useEffect(() => {
-    if (!data.length || !svgRef.current) return;
+    const resizeObserver = new ResizeObserver(entries => {
+      if (entries[0]) {
+        const { width } = entries[0].contentRect;
+        setDimensions({ width, height: width / 2 });
+      }
+    });
+
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  // D3 rendering logic
+  useEffect(() => {
+    if (!data.length || !svgRef.current || dimensions.width === 0) return;
 
     const svg = d3.select(svgRef.current);
-    const tooltip = d3.select(tooltipRef.current); // Use this for tooltips
+    const tooltip = d3.select(tooltipRef.current);
 
-    svg.selectAll('*').remove(); // Clear previous renders
+    svg.selectAll('*').remove();
 
-    const width = 800; // Adjust as needed
-    const height = 400; // Adjust as needed
+    const { width, height } = dimensions;
     const marginTop = 30;
-    const marginRight = 50; // Space for ratio axis
+    const marginRight = 50;
     const marginBottom = 50;
     const marginLeft = 60;
 
-    // Find max absolute value for symmetric y-axis
     const maxNew = d3.max(data, d => d.new_deployers) || 0;
     const maxReturning = d3.max(data, d => d.returning_deployers) || 0;
     const maxAbsValue = Math.max(maxNew, maxReturning);
 
-    // Calculate ratio and find its extent
     const dataWithRatio = data.map(d => ({
       ...d,
-      // Handle returning_deployers being 0 to avoid division by zero
       ratio: d.returning_deployers === 0 ? (d.new_deployers > 0 ? Infinity : 0) : d.new_deployers / d.returning_deployers
-    })).filter(d => isFinite(d.ratio)); // Filter out Infinite ratios for scaling
+    })).filter(d => isFinite(d.ratio));
 
     const ratioExtent = d3.extent(dataWithRatio, d => d.ratio) as [number, number] || [0, 1];
-     // Add some padding to ratio extent if min and max are the same
     if (ratioExtent[0] === ratioExtent[1]) {
         ratioExtent[0] = ratioExtent[0] * 0.8;
-        ratioExtent[1] = ratioExtent[1] * 1.2 || 1; // Handle case where extent is [0, 0]
+        ratioExtent[1] = ratioExtent[1] * 1.2 || 1;
     }
 
-
-    // Scales
     const x = d3.scaleTime()
       .domain(d3.extent(data, d => d.date) as [Date, Date])
       .range([marginLeft, width - marginRight]);
@@ -94,30 +106,29 @@ const DeployerChart: React.FC = () => {
       .nice();
 
     const yRatio = d3.scaleLinear()
-        .domain(ratioExtent) // Use calculated extent
+        .domain(ratioExtent)
         .range([height - marginBottom, marginTop])
         .nice();
 
+    const xAxis = d3.axisBottom(x)
+      .ticks(width / 80)
+      .tickSizeOuter(0)
+      .tickFormat(d => d instanceof Date ? d3.timeFormat("%b")(d) : ' ');
 
-    // Axes
-    const xAxis = d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0);
     const yAxis = d3.axisLeft(y).ticks(height / 40);
     const yRatioAxis = d3.axisRight(yRatio).ticks(height / 40);
 
-
     svg.attr('viewBox', [0, 0, width, height])
-       .attr('width', width)
-       .attr('height', height)
-       .attr('style', 'max-width: 100%; height: auto; height: intrinsic;');
+       .attr('preserveAspectRatio', 'xMidYMid meet')
+       .attr('style', `max-width: 100%; height: auto; display: block; font-family: sans-serif;`);
 
     // X Axis
     svg.append('g')
-      .attr('transform', `translate(0,${y(0)})`) // Position X axis at y=0
+      .attr('transform', `translate(0,${y(0)})`)
       .call(xAxis)
-      .call(g => g.select('.domain').remove()) // Remove the axis line, keep ticks
+      .call(g => g.select('.domain').remove())
       .call(g => g.selectAll('.tick line').attr('stroke-opacity', 0.2))
-      .call(g => g.selectAll('.tick text').attr('fill', 'currentColor').attr('font-size', '10px'));
-
+      .call(g => g.selectAll('.tick text').attr('fill', 'currentColor').attr('font-size', '12px'));
 
     // Y Axis (Deployers)
     svg.append('g')
@@ -126,7 +137,8 @@ const DeployerChart: React.FC = () => {
       .call(g => g.select('.domain').remove())
       .call(g => g.selectAll('.tick line').clone()
           .attr('x2', width - marginLeft - marginRight)
-          .attr('stroke-opacity', 0.1)) // Grid lines
+          .attr('stroke-opacity', 0.1))
+      .call(g => g.selectAll('.tick text').attr('font-size', '12px'))
       .call(g => g.select('.tick:last-of-type text').clone()
           .attr('x', 3)
           .attr('text-anchor', 'start')
@@ -134,13 +146,13 @@ const DeployerChart: React.FC = () => {
           .attr('fill', 'currentColor')
           .text('Deployers'));
 
-    // Y Axis (Ratio) - Optional, uncomment if needed
+    // Y Axis (Ratio)
     svg.append('g')
       .attr('transform', `translate(${width - marginRight},0)`)
       .call(yRatioAxis)
       .call(g => g.select('.domain').remove())
-      .call(g => g.selectAll('.tick text').attr('fill', 'currentColor').attr('font-size', '10px'))
-      .call(g => g.append('text') // Add axis label
+      .call(g => g.selectAll('.tick text').attr('fill', 'currentColor').attr('font-size', '12px'))
+      .call(g => g.append('text')
           .attr('x', marginRight-10)
           .attr('y', marginTop - 15)
           .attr('fill', 'currentColor')
@@ -148,108 +160,110 @@ const DeployerChart: React.FC = () => {
           .attr('font-weight', 'bold')
           .text('Ratio (New/Returning)'));
 
+    const barWidth = Math.max(1, (width - marginLeft - marginRight) / data.length - 1);
 
-    const barWidth = Math.max(1, (width - marginLeft - marginRight) / data.length - 2); // Calculate bar width dynamically
-
-
-     // Tooltip setup
     tooltip.style('position', 'absolute')
         .style('visibility', 'hidden')
-        .style('background-color', 'white')
-        .style('border', 'solid 1px black')
+        .style('background-color', 'rgba(255, 255, 255, 0.95)')
+        .style('border', 'solid 1px #ccc')
         .style('border-radius', '4px')
-        .style('padding', '5px')
+        .style('padding', '8px 12px')
         .style('font-size', '12px')
-        .style('pointer-events', 'none'); // Important!
+        .style('pointer-events', 'none')
+        .style('box-shadow', '0 2px 5px rgba(0,0,0,0.1)')
+        .style('white-space', 'nowrap');
 
-    // Bars for Returning Deployers (Blue, Up)
+    // Bars for Returning Deployers (Purple Soft)
     svg.append('g')
-      .attr('fill', '#3b82f6') // Blue color
+      .attr('fill', purpleSoft)
       .selectAll('rect')
       .data(data)
       .join('rect')
         .attr('x', d => (x(d.date) ?? 0) - barWidth / 2)
         .attr('y', d => y(d.returning_deployers))
         .attr('width', barWidth)
-        .attr('height', d => Math.max(0, y(0) - y(d.returning_deployers))) // Ensure non-negative height
+        .attr('height', d => Math.max(0, y(0) - y(d.returning_deployers)))
+        .style('cursor', 'pointer')
         .on('mouseover', (event, d) => {
             tooltip.style('visibility', 'visible')
-                   .html(`Returning: ${d.returning_deployers}<br>Date: ${d3.timeFormat('%Y-%m-%d')(d.date)}`);
+                   .html(`<strong>Returning:</strong> ${d.returning_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })
         .on('mousemove', (event) => {
-            tooltip.style('top', (event.pageY - 10) + 'px')
-                   .style('left', (event.pageX + 10) + 'px');
+            const [pointerX, pointerY] = d3.pointer(event, containerRef.current);
+            tooltip.style('top', (pointerY + 10) + 'px')
+                   .style('left', (pointerX + 10) + 'px');
         })
         .on('mouseout', () => {
             tooltip.style('visibility', 'hidden');
         });
 
-
-    // Bars for New Deployers (Orange, Down)
+    // Bars for New Deployers (Green Deep)
     svg.append('g')
-      .attr('fill', '#f97316') // Orange color
+      .attr('fill', greenDeep)
       .selectAll('rect')
       .data(data)
       .join('rect')
         .attr('x', d => (x(d.date) ?? 0) - barWidth / 2)
-        .attr('y', y(0)) // Start from the zero line
+        .attr('y', y(0))
         .attr('width', barWidth)
-        .attr('height', d => Math.max(0, y(-d.new_deployers) - y(0))) // Map new deployers to negative domain
+        .attr('height', d => Math.max(0, y(-d.new_deployers) - y(0)))
+        .style('cursor', 'pointer')
         .on('mouseover', (event, d) => {
             tooltip.style('visibility', 'visible')
-                   .html(`New: ${d.new_deployers}<br>Date: ${d3.timeFormat('%Y-%m-%d')(d.date)}`);
+                   .html(`<strong>New:</strong> ${d.new_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })
         .on('mousemove', (event) => {
-            tooltip.style('top', (event.pageY - 10) + 'px')
-                   .style('left', (event.pageX + 10) + 'px');
+            const [pointerX, pointerY] = d3.pointer(event, containerRef.current);
+            tooltip.style('top', (pointerY + 10) + 'px')
+                   .style('left', (pointerX + 10) + 'px');
         })
         .on('mouseout', () => {
             tooltip.style('visibility', 'hidden');
         });
 
-
-    // Ratio Line (Black)
+    // Ratio Line (Blue Blue line, Azur Deep points)
     const line = d3.line<DataPoint & { ratio: number }>()
-        .defined(d => isFinite(d.ratio)) // Don't draw line for infinite ratios
+        .defined(d => isFinite(d.ratio))
         .x(d => x(d.date)!)
         .y(d => yRatio(d.ratio));
-
 
     svg.append('path')
       .datum(dataWithRatio)
       .attr('fill', 'none')
-      .attr('stroke', 'black')
+      .attr('stroke', blueBlue)
       .attr('stroke-width', 1.5)
       .attr('d', line);
 
-      // Add points to the line for clarity
-      svg.append('g')
+    svg.append('g')
         .selectAll('circle')
-        .data(dataWithRatio.filter(d => isFinite(d.ratio))) // Only plot points for finite ratios
+        .data(dataWithRatio.filter(d => isFinite(d.ratio)))
         .join('circle')
           .attr('cx', d => x(d.date)!)
           .attr('cy', d => yRatio(d.ratio))
           .attr('r', 3)
-          .attr('fill', 'black')
+          .attr('fill', azurDeep)
+          .style('cursor', 'pointer')
           .on('mouseover', (event, d) => {
             tooltip.style('visibility', 'visible')
-                   .html(`Ratio: ${d.ratio.toFixed(2)}<br>Date: ${d3.timeFormat('%Y-%m-%d')(d.date)}`);
+                   .html(`<strong>Ratio:</strong> ${d.ratio.toFixed(2)}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
+            d3.select(event.currentTarget).attr('r', 5);
           })
           .on('mousemove', (event) => {
-            tooltip.style('top', (event.pageY - 10) + 'px')
-                   .style('left', (event.pageX + 10) + 'px');
+            const [pointerX, pointerY] = d3.pointer(event, containerRef.current);
+            tooltip.style('top', (pointerY + 10) + 'px')
+                   .style('left', (pointerX + 10) + 'px');
           })
-          .on('mouseout', () => {
+          .on('mouseout', (event) => {
             tooltip.style('visibility', 'hidden');
+            d3.select(event.currentTarget).attr('r', 3);
           });
 
-
-  }, [data]); // Redraw chart if data changes
+  }, [data, dimensions]);
 
   return (
-    <div style={{ position: 'relative' }}> {/* Container for SVG and tooltip */}
+    <div ref={containerRef} style={{ position: 'relative', width: '100%', height: 'auto' }}>
       <svg ref={svgRef}></svg>
-      <div ref={tooltipRef}></div> {/* Tooltip element */}
+      <div ref={tooltipRef}></div>
     </div>
     );
 };
