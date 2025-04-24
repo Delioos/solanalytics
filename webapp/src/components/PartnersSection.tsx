@@ -77,7 +77,7 @@ const PartnersSection = () => {
     <div className="w-full overflow-hidden py-12">
       <div className="max-w-3xl mx-auto px-4">
         <h2 className="text-center text-sm font-medium text-black/60 mb-8">
-          Transparency and insights powered by industry leaders
+          Transparency and insights made possible by 
         </h2>
       </div>
       <div className="relative">

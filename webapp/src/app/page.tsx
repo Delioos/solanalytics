@@ -8,7 +8,6 @@ import PartnersSection from '@/components/PartnersSection';
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  /*
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -50,6 +49,7 @@ export default function Home() {
       }
     };
 
+    /*
     // Trail particles array
     const particles: TrailParticle[] = [];
 
@@ -122,6 +122,7 @@ export default function Home() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+    */
 
     // Animation loop
     const animate = () => {
@@ -131,6 +132,7 @@ export default function Home() {
       // Draw grid
       drawGrid();
 
+      /*
       // Add new particles continuously
       if (mouseX !== lastMouseX || mouseY !== lastMouseY) {
         // Create multiple particles at once for denser trail
@@ -151,6 +153,7 @@ export default function Home() {
           particles.splice(i, 1);
         }
       }
+      */
 
       requestAnimationFrame(animate);
     };
@@ -159,10 +162,9 @@ export default function Home() {
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('mousemove', handleMouseMove);
+      // window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
-  */
 
   return (
     <main className="min-h-screen relative overflow-hidden h-screen fixed inset-0">
@@ -209,7 +211,7 @@ export default function Home() {
                 View First Metrics Report
               </Link>
               <Link 
-                href="https://medium.com/@medallion" 
+                href="https://medium.com/@MedallionAnalytics" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-6 py-3 bg-black/10 text-black font-medium rounded-lg hover:bg-black/20 transition-colors focus:outline-none focus:ring-2 focus:ring-black/20 focus:ring-offset-2 focus:ring-offset-gray-900"
