@@ -14,7 +14,7 @@ export interface AnalysisData {
   title: string;
   description: string;
   duneUrl: string;
-  csvData: any[];
+  csvData: (NewVsReturningData | BehavioralPatternData | Top10VsMedianData | ProfitableDeployersData | Stats42)[];
   sqlQuery: string;
   csvFileName: string;
 }

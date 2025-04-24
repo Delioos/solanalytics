@@ -284,7 +284,7 @@ const HeatmapChart: React.FC = () => {
           <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
             <BrickWallFire className="w-5 h-5 text-black/80" strokeWidth={1.5} fill="none" />
           </div>
-          Deployer Performance Heatmap
+          Top 42 Deployers Performance Heatmap
         </CardTitle>
       </CardHeader>
       <CardContent className="-mt-8">

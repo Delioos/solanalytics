@@ -7,18 +7,13 @@ import { TotalMetricsCard } from "./TotalMetricsCard"
 import { ChartCard } from "./ChartCard"
 import { SummaryCard } from "./SummaryCard"
 import HeatmapChart from "./HeatmapChart"
-import { Card } from "../ui/card"
-import { CardContent } from "../ui/card"
-import { CardHeader } from "../ui/card"
-import { CardTitle } from "../ui/card"
-import { BrickWallFire } from "lucide-react"
 
 export function PumpFunAnalyticsDashboard() {
   return (
     <ResizablePanelGroup direction="horizontal" className="min-h-[800px] w-full gap-2">
       {/* Left Column - Two Rows */}
-      <ResizablePanel defaultSize={30}>
-        <ResizablePanelGroup direction="vertical" className="h-full gap-2">
+      <ResizablePanel defaultSize={20}>
+        <ResizablePanelGroup direction="horizontal" className="h-full gap-2">
           <ResizableHandle className="invisible" />
           <ResizablePanel defaultSize={50}>
             <SummaryCard title="Summary" />
@@ -32,7 +27,7 @@ export function PumpFunAnalyticsDashboard() {
       <ResizablePanel defaultSize={70}>
         <ResizablePanelGroup direction="vertical" className="h-full gap-2">
           {/* First Row */}
-          <ResizablePanel defaultSize={50}>
+          <ResizablePanel defaultSize={33}>
             <ResizablePanelGroup direction="horizontal" className="gap-2">
               <ResizablePanel defaultSize={30}>
                 <TotalMetricsCard
@@ -51,7 +46,7 @@ export function PumpFunAnalyticsDashboard() {
           <ResizableHandle className="invisible" />
 
           {/* Second Row */}
-          <ResizablePanel defaultSize={50}>
+          <ResizablePanel defaultSize={33}>
             <ResizablePanelGroup direction="horizontal" className="gap-2">
               <ResizablePanel defaultSize={70}>
                 <ChartCard title="Volume Analysis" />
@@ -66,6 +61,9 @@ export function PumpFunAnalyticsDashboard() {
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>
+
+          <ResizableHandle className="invisible" />
+
         </ResizablePanelGroup>
       </ResizablePanel>
     </ResizablePanelGroup>

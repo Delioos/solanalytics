@@ -51,4 +51,15 @@ export interface ProfitableDeployersData {
   launches_by_profitable: number;
   pct_profitable_deployers: number;
   pct_launches_by_profitable: number;
+}
+
+export interface PnlPerDeployerData {
+  metric: string;
+  deployer_count?: number;
+  total_profit_sol: number;
+  avg_profit_per_deployer?: number;
+  median_profit_per_deployer?: number;
+  total_tokens_created: number;
+  total_profitable_tokens: number;
+  profitable_token_rate: string;
 } 

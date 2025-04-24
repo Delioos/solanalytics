@@ -4,16 +4,16 @@ import { parse } from 'csv-parse/sync';
 import {
   NewVsReturningData,
   BehavioralPatternData,
-  PnlPerDeployerData,
   Top10VsMedianData,
-  ProfitableDeployersData
+  ProfitableDeployersData,
+  Stats42
 } from '../types/data';
 
 export interface AnalysisData {
   title: string;
   description: string;
   duneUrl: string;
-  csvData: any[];
+  csvData: (NewVsReturningData | BehavioralPatternData | Top10VsMedianData | ProfitableDeployersData | Stats42)[];
   sqlQuery: string;
   csvFileName: string;
 }
