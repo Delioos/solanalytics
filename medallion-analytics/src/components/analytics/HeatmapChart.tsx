@@ -25,26 +25,16 @@ type HierarchyNode = d3.HierarchyNode<TreeNode> & {
   y1?: number;
 };
 
-interface Dimensions {
-  width: number;
-  height: number;
-}
-
-const INITIAL_DIMENSIONS: Dimensions = {
-  width: 1000,
-  height: 600,
-};
-
 const MARGIN = {
-  top: 20,
-  right: 20,
-  bottom: 20,
-  left: 20,
+  top: 10,
+  right: 10,
+  bottom: 10,
+  left: 10,
 };
 
 const HeatmapChart: React.FC = () => {
   const [data, setData] = useState<DataPoint[]>([]);
-  const [dimensions, setDimensions] = useState<Dimensions>(INITIAL_DIMENSIONS);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
@@ -91,23 +81,31 @@ const HeatmapChart: React.FC = () => {
 
   // Resize observer
   useEffect(() => {
-    const resizeObserver = new ResizeObserver(entries => {
-      if (entries[0]) {
-        const { width } = entries[0].contentRect;
-        setDimensions({ width, height: width * 0.6 });
+    if (!containerRef.current) return;
+
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const { width, height } = containerRef.current.getBoundingClientRect();
+        setDimensions({
+          width: width,
+          height: height // Use the actual container height
+        });
       }
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateDimensions();
     });
 
-    if (containerRef.current) {
-      resizeObserver.observe(containerRef.current);
-    }
+    resizeObserver.observe(containerRef.current);
+    updateDimensions(); // Initial dimension set
 
     return () => resizeObserver.disconnect();
   }, []);
 
   // D3 rendering logic
   useEffect(() => {
-    if (!data.length || !svgRef.current) return;
+    if (!data.length || !svgRef.current || dimensions.width === 0) return;
 
     const svg = d3.select(svgRef.current);
     const tooltip = d3.select(tooltipRef.current);
@@ -136,7 +134,7 @@ const HeatmapChart: React.FC = () => {
       '#64DFDF', // azure-green
       '#72EFDD', // green-deep
       '#80FFDB', // green-mint
-    ];
+    ].reverse(); // Reverse to match the desired color scheme
 
     const colorScale = d3.scaleQuantile<string>()
       .domain([0, 100])
@@ -145,7 +143,8 @@ const HeatmapChart: React.FC = () => {
     // Create treemap layout
     const treemapLayout = d3.treemap<TreeNode>()
       .size([width, height])
-      .padding(1);
+      .paddingOuter(2)
+      .paddingInner(1);
 
     // Create root node with data
     const rootNode: TreeNode = {
@@ -166,7 +165,6 @@ const HeatmapChart: React.FC = () => {
 
     treemapLayout(root);
 
-
     // Create cells
     const cells = g.selectAll<SVGGElement, HierarchyNode>('g')
       .data(root.leaves() as HierarchyNode[])
@@ -182,7 +180,8 @@ const HeatmapChart: React.FC = () => {
       .style('cursor', 'pointer')
       .on('mouseover', (event, d) => {
         tooltip
-          .style('visibility', 'visible')
+          .classed('hidden', false)
+          .style('display', 'block')
           .html(`
             <div style="background: rgba(255, 255, 255, 0.95); padding: 10px; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
               <div style="font-weight: bold; margin-bottom: 5px;">${d.data.creator_address.slice(0, 8)}...</div>
@@ -192,15 +191,70 @@ const HeatmapChart: React.FC = () => {
               <div>Days Active: ${d.data.days_active}</div>
             </div>
           `);
+        
+        const tooltipElement = tooltip.node();
+        const containerElement = containerRef.current;
+        if (tooltipElement && containerElement) {
+          const mouseX = event.pageX - containerElement.getBoundingClientRect().left;
+          const mouseY = event.pageY - containerElement.getBoundingClientRect().top;
+          const tooltipWidth = tooltipElement.offsetWidth;
+          const tooltipHeight = tooltipElement.offsetHeight;
+          const containerWidth = containerElement.offsetWidth;
+          const containerHeight = containerElement.offsetHeight;
+
+          // Position tooltip to avoid going outside container bounds
+          let left = mouseX + 10;
+          let top = mouseY + 10;
+
+          // Adjust if tooltip would go beyond right edge
+          if (left + tooltipWidth > containerWidth) {
+            left = mouseX - tooltipWidth - 10;
+          }
+
+          // Adjust if tooltip would go beyond bottom edge
+          if (top + tooltipHeight > containerHeight) {
+            top = mouseY - tooltipHeight - 10;
+          }
+
+          tooltip
+            .style('left', `${left}px`)
+            .style('top', `${top}px`);
+        }
       })
       .on('mousemove', (event) => {
-        const [x, y] = d3.pointer(event, containerRef.current);
-        tooltip
-          .style('left', `${x + 10}px`)
-          .style('top', `${y + 10}px`);
+        const tooltipElement = tooltip.node();
+        const containerElement = containerRef.current;
+        if (tooltipElement && containerElement) {
+          const mouseX = event.pageX - containerElement.getBoundingClientRect().left;
+          const mouseY = event.pageY - containerElement.getBoundingClientRect().top;
+          const tooltipWidth = tooltipElement.offsetWidth;
+          const tooltipHeight = tooltipElement.offsetHeight;
+          const containerWidth = containerElement.offsetWidth;
+          const containerHeight = containerElement.offsetHeight;
+
+          // Position tooltip to avoid going outside container bounds
+          let left = mouseX + 10;
+          let top = mouseY + 10;
+
+          // Adjust if tooltip would go beyond right edge
+          if (left + tooltipWidth > containerWidth) {
+            left = mouseX - tooltipWidth - 10;
+          }
+
+          // Adjust if tooltip would go beyond bottom edge
+          if (top + tooltipHeight > containerHeight) {
+            top = mouseY - tooltipHeight - 10;
+          }
+
+          tooltip
+            .style('left', `${left}px`)
+            .style('top', `${top}px`);
+        }
       })
       .on('mouseout', () => {
-        tooltip.style('visibility', 'hidden');
+        tooltip
+          .classed('hidden', true)
+          .style('display', 'none');
       });
 
     // Add text labels (only for cells large enough)
@@ -210,17 +264,21 @@ const HeatmapChart: React.FC = () => {
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .style('fill', 'white')
-      .style('font-size', '12px')
+      .style('font-size', '11px')
+      .style('font-weight', 'bold')
       .style('pointer-events', 'none')
+      .style('user-select', 'none')
       .text(d => {
-        const size = Math.min((d.x1 || 0) - (d.x0 || 0), (d.y1 || 0) - (d.y0 || 0));
-        return size > 30 ? `${d.data.profit_rate_percent.toFixed(1)}%` : '';
+        const width = (d.x1 || 0) - (d.x0 || 0);
+        const height = (d.y1 || 0) - (d.y0 || 0);
+        // Show text if either width or height is large enough
+        return (width > 50 || height > 50) ? `${d.data.profit_rate_percent.toFixed(1)}%` : '';
       });
 
   }, [data, dimensions]);
 
   return (
-    <Card className="h-full text-black">
+    <Card className="h-full w-full text-black">
       <CardHeader className="pb-0">
         <CardTitle className="text-2xl font-grotesk text-black/80 flex items-center gap-6">
           <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
@@ -229,18 +287,17 @@ const HeatmapChart: React.FC = () => {
           Deployer Performance Heatmap
         </CardTitle>
       </CardHeader>
-      <CardContent className="-mt-4">
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', height: 'auto' }}>
+      <CardContent className="-mt-8">
+        <div ref={containerRef} className="w-full h-[280px] relative">
           {isLoading && <div>Loading...</div>}
           {error && <div style={{ color: 'red' }}>{error}</div>}
           {!isLoading && !error && (
             <>
-              <svg ref={svgRef}></svg>
+              <svg ref={svgRef} style={{ width: '100%', height: '100%' }}></svg>
               <div
                 ref={tooltipRef}
+                className="absolute hidden"
                 style={{
-                  position: 'absolute',
-                  visibility: 'hidden',
                   backgroundColor: 'white',
                   pointerEvents: 'none',
                   zIndex: 1000,
