@@ -26,15 +26,14 @@ export interface BehavioralPatternData {
   profit_rate_percent: number;
 }
 
-export interface PnlPerDeployerData {
-  metric: string;
-  deployer_count?: number;
+export interface Stats42 {
+  creator_address: string;
+  tokens_created: number;
   total_profit_sol: number;
-  avg_profit_per_deployer?: number;
-  median_profit_per_deployer?: number;
-  total_tokens_created: number;
-  total_profitable_tokens: number;
-  profitable_token_rate: number;
+  profitable_tokens: number;
+  profit_rate_percent: number;
+  days_active: number;
+  tokens_per_day: number;
 }
 
 export interface Top10VsMedianData {

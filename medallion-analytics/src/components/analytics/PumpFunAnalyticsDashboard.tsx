@@ -6,6 +6,12 @@ import {
 import { TotalMetricsCard } from "./TotalMetricsCard"
 import { ChartCard } from "./ChartCard"
 import { SummaryCard } from "./SummaryCard"
+import HeatmapChart from "./HeatmapChart"
+import { Card } from "../ui/card"
+import { CardContent } from "../ui/card"
+import { CardHeader } from "../ui/card"
+import { CardTitle } from "../ui/card"
+import { BrickWallFire } from "lucide-react"
 
 export function PumpFunAnalyticsDashboard() {
   return (
@@ -37,7 +43,7 @@ export function PumpFunAnalyticsDashboard() {
               </ResizablePanel>
               <ResizableHandle className="invisible" />
               <ResizablePanel defaultSize={70}>
-                <ChartCard title="Deployments trend" />
+                <HeatmapChart />
               </ResizablePanel>
             </ResizablePanelGroup>
           </ResizablePanel>

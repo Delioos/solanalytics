@@ -19,7 +19,7 @@ export function ChartCard({ title }: ChartCardProps) {
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="-mt-4">
         <DeployerChart />
       </CardContent>
     </Card>

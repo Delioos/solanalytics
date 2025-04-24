@@ -104,7 +104,7 @@ const getIconForAnalysis = (title: string) => {
       return <Users className="text-purple-hard" size={24} />;
     case "Behavioral Patterns of Top 100 Deployers":
       return <Activity className="text-purple-blue" size={24} />;
-    case "P&L Analysis per Deployer":
+    case "Top 42 Deployers Analysis":
       return <DollarSign className="text-azur-deep" size={24} />;
     case "Top 10 vs Median Deployer Comparison":
       return <BarChart2 className="text-azur-green" size={24} />;
