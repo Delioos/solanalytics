@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
@@ -21,12 +20,12 @@ const caseStudies = [
 
 export default function AnalyticsPage() {
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 ">
       <h1 className="text-3xl font-bold mb-8 font-heading">Recent Reports</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
         {caseStudies.map((study) => (
-          <Link key={study.id} href={`/analytics/${study.id}`}>
-            <Card className="hover:shadow-lg transition-all bg-white duration-300 hover:scale-[1.02] overflow-hidden">
+          <Link key={study.id} href={`/analytics/${study.id}`} className="w-full max-w-xl">
+            <Card className="hover:shadow-lg transition-all bg-white duration-300 hover:scale-[1.02] overflow-hidden w-full">
               <div className="relative w-full h-48">
                 {study.image ? (
                   <Image

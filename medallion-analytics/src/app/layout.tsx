@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import MainNav from "@/components/nav/MainNav";
+import Footer from "@/components/footer/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,9 +31,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body className="min-h-screen bg-[#E9EEEA] text-black font-sans">
+      <body className="min-h-screen bg-[#E9EEEA] text-black font-sans flex flex-col">
         <MainNav />
-        {children}
+        <main className="flex-grow">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
