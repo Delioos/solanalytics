@@ -1,9 +1,7 @@
-export default function DataPage() {
-  return (
-    <main className="min-h-screen">
-      <div className="container mx-auto py-4">
-        data
-      </div>
-    </main>
-  )
+import { getAnalysisData } from './DataProvider';
+import DataPageClient from './DataPageClient';
+
+export default async function DataPage() {
+  const analyses = await getAnalysisData();
+  return <DataPageClient analyses={analyses} />;
 } 
