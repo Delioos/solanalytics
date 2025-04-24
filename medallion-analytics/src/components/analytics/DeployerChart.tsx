@@ -194,7 +194,7 @@ const DeployerChart: React.FC = () => {
         .attr('width', barWidth)
         .attr('height', d => Math.max(0, y(0) - y(d.new_deployers)))
         .style('cursor', 'pointer')
-        .on('mouseover', (event, d) => {
+        .on('mouseover', (_event, d) => {
             tooltip.style('visibility', 'visible')
                    .html(`<strong>New:</strong> ${d.new_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })
@@ -218,7 +218,7 @@ const DeployerChart: React.FC = () => {
         .attr('width', barWidth)
         .attr('height', d => Math.max(0, y(-d.returning_deployers) - y(0)))
         .style('cursor', 'pointer')
-        .on('mouseover', (event, d) => {
+        .on('mouseover', (_event, d) => {
             tooltip.style('visibility', 'visible')
                    .html(`<strong>Returning:</strong> ${d.returning_deployers}<br>Date: ${d3.timeFormat('%b %d, %Y')(d.date)}`);
         })

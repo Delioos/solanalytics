@@ -26,7 +26,6 @@ export const loadAnalysisData = (): AnalysisData[] => {
   // Read SQL queries
   const newVsReturningSql = fs.readFileSync(path.join(sqlDir, 'newVsReturning.sql'), 'utf-8');
   const behaviourialPatternSql = fs.readFileSync(path.join(sqlDir, 'behaviourialPattern.sql'), 'utf-8');
-  const pnlAggregationSql = fs.readFileSync(path.join(sqlDir, 'pnlAggregation.sql'), 'utf-8');
   const top10vsMedianDeployerSql = fs.readFileSync(path.join(sqlDir, 'top10vsMedianDeployer.sql'), 'utf-8');
   const profitableDeployersSql = fs.readFileSync(path.join(sqlDir, 'profitableDeployers.sql'), 'utf-8');
 
@@ -41,10 +40,6 @@ export const loadAnalysisData = (): AnalysisData[] => {
     skip_empty_lines: true
   }) as BehavioralPatternData[];
 
-  const pnlPerDeployerCsv = parse(fs.readFileSync(path.join(dataDir, 'pnlPerDeployer-2025-04-24T10-19-25.931Z.csv'), 'utf-8'), {
-    columns: true,
-    skip_empty_lines: true
-  }) as PnlPerDeployerData[];
 
   const top10vsMedianCsv = parse(fs.readFileSync(path.join(dataDir, 'dune-[top10againstMedian]-2025-04-24T10-05-19.776Z.csv'), 'utf-8'), {
     columns: true,
@@ -72,14 +67,6 @@ export const loadAnalysisData = (): AnalysisData[] => {
       csvData: behaviourialPatternCsv,
       sqlQuery: behaviourialPatternSql,
       csvFileName: "behaviourialPatternTOP100.csv"
-    },
-    {
-      title: "P&L Analysis per Deployer",
-      description: "Profit and loss analysis for each deployer, showing total profits, token counts, and success rates. This analysis calculates the total SOL profit, number of tokens created, and success rate for each deployer who has launched 5 or more tokens.",
-      duneUrl: "https://dune.com/queries/3456789",
-      csvData: pnlPerDeployerCsv,
-      sqlQuery: pnlAggregationSql,
-      csvFileName: "pnlPerDeployer.csv"
     },
     {
       title: "Top 10 vs Median Deployer Comparison",

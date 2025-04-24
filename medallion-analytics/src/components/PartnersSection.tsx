@@ -17,15 +17,7 @@ const PartnersSection = () => {
     let scrollPosition = 0;
     let animationFrameId: number;
 
-    const partners = [
-      'Helius-Horizontal-Logo.png',
-      'Dune-Logo-PrimaryLarge.png',
-      'Arkham Combination Black.png',
-      'stfr-logo.webp'
-    ];
 
-    // Duplicate the partners array to create seamless loop
-    const duplicatedPartners = [...partners, ...partners];
 
     const scroll = () => {
       if (isHovered.current) {
