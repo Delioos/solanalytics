@@ -1,21 +1,28 @@
+import React from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
 interface TotalMetricsCardProps {
   title: string
-  value: string
+  titleIcon: React.ReactNode
+  value: React.ReactNode
   subtitle?: string
 }
 
-export function TotalMetricsCard({ title, value, subtitle }: TotalMetricsCardProps) {
+export function TotalMetricsCard({ title, titleIcon, value, subtitle }: TotalMetricsCardProps) {
   return (
     <Card className="h-full bg-black/10 border-none text-black">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-black/80">{title}</CardTitle>
+        <CardTitle className="text-sm font-medium text-black/80 flex items-center gap-2">
+          {titleIcon}
+          {title}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="text-4xl font-bold">{value}</div>
+      <CardContent className="flex flex-col justify-center items-center h-full">
+        <div className="text-6xl md:text-7xl font-extrabold text-black/90 my-auto text-center">
+          {value}
+        </div>
         {subtitle && (
-          <p className="text-sm text-black/60 mt-2 flex items-center gap-1">
+          <p className="text-sm text-black/60 mt-4 flex items-center gap-1 text-center">
             {subtitle}
           </p>
         )}

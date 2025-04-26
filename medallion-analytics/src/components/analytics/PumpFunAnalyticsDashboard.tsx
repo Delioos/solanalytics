@@ -7,6 +7,7 @@ import { TotalMetricsCard } from "./TotalMetricsCard"
 import { ChartCard } from "./ChartCard"
 import { SummaryCard } from "./SummaryCard"
 import HeatmapChart from "./HeatmapChart"
+import { UsersIcon, CoinsIcon } from "lucide-react"
 
 export function PumpFunAnalyticsDashboard() {
   return (
@@ -31,9 +32,19 @@ export function PumpFunAnalyticsDashboard() {
             <ResizablePanelGroup direction="horizontal" className="gap-2">
               <ResizablePanel defaultSize={30}>
                 <TotalMetricsCard
-                  title="Total Deployments"
-                  value="45,231"
-                  subtitle="↗️ +20.1% from last month"
+                  title="Prolific Deployers"
+                  titleIcon={
+                    <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
+                      <UsersIcon className="w-5 h-5 text-black/80 stroke-2" strokeWidth={1.5} fill="none" />
+                    </div>
+                  }
+                  value={
+                    <>
+                      <span className="text-purple-blue font-extrabold">178k </span>
+                      <br />
+                      <span className="text-azur-blue font-extrabold text-xl">️ unique deployers</span>
+                    </>
+                  }
                 />
               </ResizablePanel>
               <ResizableHandle className="invisible" />
@@ -54,9 +65,20 @@ export function PumpFunAnalyticsDashboard() {
               <ResizableHandle className="invisible" />
               <ResizablePanel defaultSize={30}>
                 <TotalMetricsCard
-                  title="Total Volume"
-                  value="$2.5B"
-                  subtitle="Past 30 days"
+                  title="Total SOL Extracted by Deployers"
+                  titleIcon={
+                    <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
+                      <CoinsIcon className="w-5 h-5 text-black/80 stroke-2" strokeWidth={1.5} fill="none" />
+                    </div>
+                  }
+                  value={
+                    <>
+                      <span className="text-blue-blue font-extrabold">50,7k</span>
+                      <br />
+                      <span className="text-purple-hard font-extrabold">$sol</span>
+                      </>
+                  }
+                  subtitle="In 180 days"
                 />
               </ResizablePanel>
             </ResizablePanelGroup>
