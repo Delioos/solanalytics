@@ -1,3 +1,5 @@
+'use client';
+
 import { PumpFunAnalyticsDashboard } from "@/components/analytics/PumpFunAnalyticsDashboard"
 import { Breadcrumb } from "@/components/ui/breadcrumb"
 

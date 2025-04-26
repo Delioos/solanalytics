@@ -2,22 +2,22 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const PartnersSection = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const isHovered = useRef(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     const content = contentRef.current;
     if (!scrollContainer || !content) return;
 
-    const scrollSpeed = 0.5; // Reduced from 1 to 0.5 pixels per frame
+    const scrollSpeed = isMobile ? 0.3 : 0.5; // Slower speed on mobile
     let scrollPosition = 0;
     let animationFrameId: number;
-
-
 
     const scroll = () => {
       if (isHovered.current) {
@@ -53,7 +53,7 @@ const PartnersSection = () => {
       scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]);
 
   const partners = [
     'Helius-Horizontal-Logo.png',
@@ -79,7 +79,7 @@ const PartnersSection = () => {
         >
           <div 
             ref={contentRef}
-            className="flex items-center gap-32" // Increased from gap-16 to gap-32
+            className={`flex items-center ${isMobile ? 'gap-16' : 'gap-32'}`}
           >
             {duplicatedPartners.map((partner, index) => (
               <div 
@@ -90,8 +90,8 @@ const PartnersSection = () => {
                 <Image
                   src={`/partners/${partner}`}
                   alt={partner.replace(/\.(png|webp)$/, '')}
-                  width={120}
-                  height={40}
+                  width={isMobile ? 80 : 120}
+                  height={isMobile ? 30 : 40}
                   className="object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                 />
               </div>

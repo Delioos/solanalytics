@@ -1,3 +1,5 @@
+'use client';
+
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,8 +10,52 @@ import { ChartCard } from "./ChartCard"
 import { SummaryCard } from "./SummaryCard"
 import HeatmapChart from "./HeatmapChart"
 import { UsersIcon, CoinsIcon } from "lucide-react"
+import { useIsMobile } from "@/hooks/useIsMobile"
 
 export function PumpFunAnalyticsDashboard() {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return (
+      <div className="space-y-4">
+        <SummaryCard title="Summary" />
+        <TotalMetricsCard
+          title="Prolific Deployers"
+          titleIcon={
+            <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
+              <UsersIcon className="w-5 h-5 text-black/80 stroke-2" strokeWidth={1.5} fill="none" />
+            </div>
+          }
+          value={
+            <>
+              <span className="text-purple-blue font-extrabold">178k </span>
+              <br />
+              <span className="text-azur-blue font-extrabold text-xl">️ unique deployers</span>
+            </>
+          }
+        />
+        <HeatmapChart />
+        <ChartCard title="New vs Returning Deployers Trend" />
+        <TotalMetricsCard
+          title="Total SOL Extracted by Top Deployer"
+          titleIcon={
+            <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
+              <CoinsIcon className="w-5 h-5 text-black/80 stroke-2" strokeWidth={1.5} fill="none" />
+            </div>
+          }
+          value={
+            <>
+              <span className="text-blue-blue font-extrabold">50,7k</span>
+              <br />
+              <span className="text-purple-hard font-extrabold">$sol</span>
+            </>
+          }
+          subtitle="In 180 days"
+        />
+      </div>
+    );
+  }
+
   return (
     <ResizablePanelGroup direction="horizontal" className="min-h-[800px] w-full gap-2">
       {/* Left Column - Two Rows */}
@@ -65,7 +111,7 @@ export function PumpFunAnalyticsDashboard() {
               <ResizableHandle className="invisible" />
               <ResizablePanel defaultSize={30}>
                 <TotalMetricsCard
-                  title="Total SOL Extracted by Deployers"
+                  title="Total SOL Extracted by Top Deployer"
                   titleIcon={
                     <div className="flex items-center gap-2 rounded-full border-2 border-black/10 p-4">
                       <CoinsIcon className="w-5 h-5 text-black/80 stroke-2" strokeWidth={1.5} fill="none" />
@@ -76,7 +122,7 @@ export function PumpFunAnalyticsDashboard() {
                       <span className="text-blue-blue font-extrabold">50,7k</span>
                       <br />
                       <span className="text-purple-hard font-extrabold">$sol</span>
-                      </>
+                    </>
                   }
                   subtitle="In 180 days"
                 />
@@ -89,5 +135,5 @@ export function PumpFunAnalyticsDashboard() {
         </ResizablePanelGroup>
       </ResizablePanel>
     </ResizablePanelGroup>
-  )
+  );
 } 
