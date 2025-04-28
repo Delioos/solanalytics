@@ -45,16 +45,6 @@ export default function AnalyticsPage() {
                 <CardTitle className="text-xl font-bold font-heading">{study.title}</CardTitle>
                 <CardDescription className="text-gray-600">{study.description}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-4">
-                  {Object.entries(study.metrics).map(([key, value]) => (
-                    <div key={key} className="text-center">
-                      <p className="text-sm text-gray-500 capitalize">{key}</p>
-                      <p className="font-semibold text-gray-900 font-heading">{value}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
             </Card>
           </Link>
         ))}
